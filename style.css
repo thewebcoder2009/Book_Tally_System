@@ -1,0 +1,312 @@
+:root {
+    --bg: #22262c;
+    --card: #353f53;
+    --muted: #d8dee7;
+    --text: #f1f5fa;
+    --accent-phys: #c9b2fa;
+    --accent-chem: #fab59e;
+    --accent-bio: #82d5ff;
+    --glass: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    box-sizing: border-box
+}
+
+body {
+    margin: 0;
+    font-family: Inter, system-ui, Segoe UI, Roboto, "Helvetica Neue", Arial;
+    background: var(--bg);
+    color: var(--text);
+    padding: 28px;
+    -webkit-font-smoothing: antialiased;
+}
+
+header {
+    margin-bottom: 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    padding-bottom: 12px
+}
+
+header h1 {
+    margin: 0;
+    color: var(--accent-phys);
+    font-size: 22px
+}
+
+header p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 14px
+}
+
+.card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.00));
+    border-radius: 12px;
+    padding: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6)
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px
+}
+
+.tab {
+    background: transparent;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: var(--muted);
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.tab.active {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4)
+}
+
+.subject-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px
+}
+
+.subject-title {
+    display: flex;
+    gap: 12px;
+    align-items: center
+}
+
+.badge {
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+    color: #05060a
+}
+
+.badge.physics {
+    background: var(--accent-phys)
+}
+
+.badge.chemistry {
+    background: var(--accent-chem)
+}
+
+.badge.biology {
+    background: var(--accent-bio)
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    align-items: center
+}
+
+.controls button {
+    background: #0d141b;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: var(--text);
+    cursor: pointer
+}
+
+.controls .small {
+    padding: 6px 8px;
+    font-size: 14px
+}
+
+.panel {
+    background: #12161b;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.02)
+}
+
+.meta-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap
+}
+
+.table-wrap {
+    overflow: auto;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    margin-bottom: 12px
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px
+}
+
+th,
+td {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    vertical-align: top;
+    text-align: left
+}
+
+th {
+    font-size: 14px;
+    color: var(--muted);
+    position: sticky;
+    top: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.00))
+}
+
+.chapter-col {
+    width: 260px
+}
+
+.book-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 4px 8px 4px 0;
+    padding: 4px 6px;
+    background: rgba(50, 50, 50, 0.767);
+    border-radius: 6px
+}
+
+.book-checkbox input {
+    width: 14px;
+    height: 14px
+}
+
+.actions {
+    display: flex;
+    gap: 6px
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: #cbd5e1;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.02)
+}
+
+.progress-line {
+    height: 10px;
+    background: #0b1116;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.02)
+}
+
+.progress-line>i {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
+    border-radius: 6px
+}
+
+.book-summary {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px
+}
+
+.book-pill {
+    background: #0d141b;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    min-width: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px
+}
+
+.book-title {
+    font-size: 14px;
+    color: var(--muted)
+}
+
+.book-title.editable {
+    cursor: pointer
+}
+
+.book-actions {
+    display: flex;
+    gap: 6px
+}
+
+.add-input {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: #0d141b;
+    color: var(--text);
+    width: 20vw;
+}
+
+.small-muted {
+    color: var(--muted);
+    font-size: 14px
+}
+
+.footer-note {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 8px
+}
+
+.add-core,
+.add-allen {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e6eef8;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+}
+
+.add-core:hover,
+.add-allen:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.add-core:active,
+.add-allen:active {
+    transform: translateY(0);
+    box-shadow: 0 0 0 transparent;
+}
+
+
+/* responsive tweak */
+@media (max-width:920px) {
+    .chapter-col {
+        width: 220px
+    }
+
+    table {
+        min-width: 640px
+    }
+}

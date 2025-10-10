@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NEET Chapter Completion Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <h1>Chapter Completion Tracker</h1>
+        <p>Track solved books chapter-wise — Physics, Chemistry, Biology (Class 11 preloaded)</p>
+      </div>
+    </header>
+
+    <main class="card">
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-sub="physics">Physics</button>
+        <button class="tab" data-sub="chemistry">Chemistry</button>
+        <button class="tab" data-sub="biology">Biology</button>
+      </div>
+
+      <section id="content-area">
+        <!-- Subject content injected by script -->
+      </section>
+    </main>
+  </div>
+</body>
+</html>
