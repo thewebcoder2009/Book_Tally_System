@@ -17,7 +17,6 @@ const PHYSICAL_CHEM_CHAPTERS = [
   "States of Matter",
   "Thermodynamics",
   "Equilibrium",
-  "Chemical Bonding and Molecular Structure",
   "Redox Reactions",
   "Structure of Atom"
 ];
@@ -26,7 +25,8 @@ const PHYSICAL_CHEM_CHAPTERS = [
 const INORGANIC_CHEM_CHAPTERS = [
   "The s-Block Elements",
   "The p-Block Elements",
-  "Classification of Elements and Periodicity"
+  "Classification of Elements and Periodicity",
+  "Chemical Bonding and Molecular Structure"
 ];
 
 const initial = {
