@@ -7,7 +7,27 @@
    - Persistent localStorage: key "neetBooks_v1"
 */
 
-const STORAGE_KEY = "neetBooks_v1";
+const STORAGE_KEY = "neetBooks_v2";
+
+// === CHAPTER-BOOK APPLICABILITY MAPPING ===
+// adjust lists here if you want to change which chapters are considered
+// Physical chemistry chapters (N. Awasthi applies)
+const PHYSICAL_CHEM_CHAPTERS = [
+  "Some Basic Concepts of Chemistry",
+  "States of Matter",
+  "Thermodynamics",
+  "Equilibrium",
+  "Chemical Bonding and Molecular Structure",
+  "Redox Reactions",
+  "Structure of Atom"
+];
+
+// Inorganic chemistry chapters (O.P. Tandon applies)
+const INORGANIC_CHEM_CHAPTERS = [
+  "The s-Block Elements",
+  "The p-Block Elements",
+  "Classification of Elements and Periodicity"
+];
 
 const initial = {
 	physics: {
@@ -26,7 +46,7 @@ const initial = {
 		chapters: [
 			"Some Basic Concepts of Chemistry", "Structure of Atom", "Classification of Elements and Periodicity",
 			"Chemical Bonding and Molecular Structure", "States of Matter", "Thermodynamics", "Equilibrium",
-			"Redox Reactions", "Hydrogen", "The s-Block Elements", "The p-Block Elements",
+			"Redox Reactions", "The s-Block Elements", "The p-Block Elements",
 			"Organic Chemistry: Basic Principles", "Hydrocarbons", "Environmental Chemistry"
 		]
 	},
@@ -123,6 +143,27 @@ function normalizeChapter(existing, coreBooks, allenBooks) {
 
 function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(model)); }
 
+// ---------- APPLICABILITY HELPERS ----------
+// decide whether a particular core book applies to a given chemistry chapter
+function isBookApplicable(bookName, chapterName, subject) {
+	if (subject !== "chemistry") return true; // applicability rules apply only to chemistry here
+	const b = String(bookName).toLowerCase();
+	const c = String(chapterName).trim();
+
+	// Normalise common book name variants
+	const isAwasthi = b.includes("awasthi");
+	const isTandon = b.includes("tandon");
+
+	if (isAwasthi) {
+		return PHYSICAL_CHEM_CHAPTERS.includes(c);
+	}
+	if (isTandon) {
+		return INORGANIC_CHEM_CHAPTERS.includes(c);
+	}
+	// other books apply everywhere by default
+	return true;
+}
+
 // ---------- RENDERING ----------
 function renderActive() {
 	const sub = model[activeSub];
@@ -194,10 +235,12 @@ function renderBookPills() {
 
 	// per-book progress
 	function bookProgress(bookName, group) {
-		const chapters = sub.chapters;
-		if (!chapters.length) return 0;
-		const count = chapters.filter(ch => (group === "core" ? ch.core[bookName] : ch.allen[bookName])).length;
-		return Math.round((count / chapters.length) * 100);
+		const chapters = sub.chapters || [];
+		// only count chapters where this book applies
+		const applicableChapters = chapters.filter(ch => isBookApplicable(bookName, ch.name, activeSub));
+		if (!applicableChapters.length) return 0;
+		const count = applicableChapters.filter(ch => (group === "core" ? ch.core[bookName] : ch.allen[bookName])).length;
+		return Math.round((count / applicableChapters.length) * 100);
 	}
 
 	sub.coreBooks.forEach(b => {
@@ -274,9 +317,11 @@ function renderTableRows() {
 	const tbody = document.getElementById("chapRows");
 	tbody.innerHTML = "";
 	sub.chapters.forEach((ch, idx) => {
-		const totalBooks = sub.coreBooks.length + sub.allenBooks.length;
-		const checkedCount = sub.coreBooks.reduce((a, b) => a + (ch.core[b] ? 1 : 0), 0) + sub.allenBooks.reduce((a, b) => a + (ch.allen[b] ? 1 : 0), 0);
-		const percent = totalBooks ? Math.round((checkedCount / totalBooks) * 100) : 0;
+		// compute per-chapter applicable book count
+		const applicableCoreBooks = sub.coreBooks.filter(b => isBookApplicable(b, ch.name, activeSub));
+		const totalApplicable = applicableCoreBooks.length + sub.allenBooks.length;
+		const checkedCount = applicableCoreBooks.reduce((a, b) => a + (ch.core[b] ? 1 : 0), 0) + sub.allenBooks.reduce((a, b) => a + (ch.allen[b] ? 1 : 0), 0);
+		const percent = totalApplicable ? Math.round((checkedCount / totalApplicable) * 100) : 0;
 
 		const tr = document.createElement("tr");
 		tr.innerHTML = `
@@ -298,9 +343,10 @@ function renderTableRows() {
         <button class="icon-btn delete-chapter" title="Delete chapter">🗑️</button>
       </td>
     `;
-		// populate core checkboxes
+		// populate core checkboxes (only for applicable core books for this chapter)
 		const coreCell = tr.children[1].firstElementChild;
 		sub.coreBooks.forEach(book => {
+			if (!isBookApplicable(book, ch.name, activeSub)) return; // skip book for this chapter
 			const cb = document.createElement("label");
 			cb.className = "book-checkbox";
 			cb.innerHTML = `<input type="checkbox" data-group="core" data-book="${escapeAttr(book)}" data-idx="${idx}" ${ch.core[book] ? "checked" : ""}/> <span style="font-size:12px;color:var(--muted)">${book}</span>`;
